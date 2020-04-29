@@ -1,4 +1,4 @@
 INT X = 5;
 INT Y = 100;
 PRINT("(", X , "," , Y , "," , X+10 , ")");
-PRINT(X < Y);
+PRINT(NOT 10);

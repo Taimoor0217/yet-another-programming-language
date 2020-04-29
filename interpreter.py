@@ -63,6 +63,7 @@ def Binop(env, tree):
         return LHS / RHS
     if operation == '%':
         return LHS % RHS
+
 def Compop(env , tree):
     operation = tree[2]
     LHS = eval_expression(env , tree[1])
@@ -87,6 +88,24 @@ def Compop(env , tree):
     if operation == "<":
         return LHS < RHS
 
+def Logop(env , tree):
+    operation = tree[2]
+    RHS = eval_expression(env , tree[3])
+    if RHS == "?/?/":
+        Error("Undeclared Variables !")
+
+    if operation == "NOT":
+        return not (RHS != False)
+
+    LHS = eval_expression(env , tree[1])
+
+    if LHS == "?/?/":
+        Error("Undeclared Variables !")
+
+    if operation == "OR":
+        return LHS != False or RHS != False
+    if operation == "AND":
+        return LHS != False and RHS != False
 
 def Vname(env, tree):
     Val = get_variable(env , tree[1][0])
@@ -96,13 +115,15 @@ def Vname(env, tree):
         return Val[1]
 
 def Pprint(env , tree):
-    # print(tree)
+    print(tree)
     print(eval_expression(env , tree[1][0])) #recursively evaluate and print the elements
 
 def Tprint(env , tree, ans): #incase there are tuples in print
     for t in tree[1:]:
         ans += " " +str(eval_expression(env , t))
     return ans[1:]
+
+
 
 def eval_expression(env , tree):
     node_type = tree[0] 
@@ -117,12 +138,18 @@ def eval_expression(env , tree):
         return tree[1]
     if node_type == "char":
         return tree[1]
+    if node_type == "false":
+        return False
+    if node_type == "true":
+        return True
     if node_type == "identifier":
         return Identifier(env , tree)
     if node_type == "binary operation":
         return Binop(env , tree)
     if node_type == "comparison operation":
         return Compop(env , tree )
+    if node_type == "logical operation":
+        return Logop(env , tree )
 
     if node_type == "vname":
         return Vname(env , tree)
@@ -130,6 +157,7 @@ def eval_expression(env , tree):
         return Pprint(env , tree)
     if node_type == "print tuple":
         return Tprint(env , tree , '') 
+    
 
 
 def main():

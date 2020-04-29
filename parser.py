@@ -18,7 +18,7 @@ tokens = (
         'ADD','SUB','DIVIDE','MULTIPLY','MOD','PLUSPLUS','MINUSMINUS',
         'LPAREN','RPAREN','LCURL','RCURL',
         'GREATER','LESSER','LEEQ','GEEQ','NOEQ','EQEQ',
-        'FOR','PRINT', 'TO'
+        'FOR','PRINT', 'TO' , 'NOT' , 'AND' , 'OR' , 'FALSE' , 'TRUE'
 )
 
 def p_exp_stmnts(p): #statment followed by statements
@@ -32,6 +32,14 @@ def p_exp_print (p): #tuples for print statement
 def p_exp_stempty(p): #empty statement
 	'stmnts : '
 	p[0] = []
+
+def p_exp_false(p):
+	'exp : FALSE'
+	p[0] = ('false' , [])
+
+def p_exp_true(p):
+	'exp : TRUE'
+	p[0] = ('true' , [])
 
 def p_stmnt_start(p):
 	'exp : stmnts'
@@ -160,7 +168,12 @@ def p_exp_compareop(p):
 		| exp NOEQ exp"""
 	p[0] = ("comparison operation", p[1], p[2], p[3])
 
-
+def p_exp_logop(p):
+	"""exp : exp OR exp 
+		| exp AND exp 
+		| exp NOT exp"""
+	p[0] = ("logical operation", p[1], p[2], p[3])
+    
 def p_exp_crement(p):
 	"""exp : exp PLUSPLUS  
 		| exp MINUSMINUS"""

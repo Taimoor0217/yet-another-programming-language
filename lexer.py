@@ -28,7 +28,7 @@ tokens = (
         'ADD','SUB','DIVIDE','MULTIPLY','MOD','PLUSPLUS','MINUSMINUS',
         'LPAREN','RPAREN','LCURL','RCURL',
         'GREATER','LESSER','LEEQ','GEEQ','NOEQ','EQEQ',
-        'FOR','TO' , 'PRINT',
+        'FOR','TO' , 'PRINT', 'NOT' , 'AND', 'OR' , 'FALSE' , 'TRUE'
 )
 
 def t_newline(t):
@@ -46,6 +46,22 @@ def t_TYPE(t):
 
 def t_TO(t):
         r'to'
+        return t
+def t_NOT(t):
+        r'NOT'
+        return t
+def t_FALSE(t):
+        r'FALSE'
+        return t
+def t_TRUE(t):
+        r'TRUE'
+        return t
+def t_AND(t):
+        r'AND'
+        return t
+
+def t_OR(t):
+        r'OR'
         return t
 
 def t_FOR(t):
