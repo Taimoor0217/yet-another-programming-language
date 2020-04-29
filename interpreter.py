@@ -48,6 +48,9 @@ def Binop(env, tree):
     if LHS == "?/?/" or RHS == "?/?/":
         Error("Undeclared Variables !")
 
+    if type(LHS) != type(RHS):
+        Error("Type mismatch for {} {} {}".format(type(LHS) , operation , type(RHS)))
+
     if operation == '+':
         return LHS + RHS
     if operation == '-':
@@ -55,6 +58,8 @@ def Binop(env, tree):
     if operation == '*':
         return LHS * RHS
     if operation == '/':
+        if RHS == 0:
+            Error("Division by Zero")
         return LHS / RHS
     if operation == '%':
         return LHS % RHS
@@ -71,8 +76,8 @@ def pprint(env , tree):
 
 def tprint(env , tree, ans): #incase there are tuples in print
     for t in tree[1:]:
-        ans += str(eval_expression(env , t))
-    return ans
+        ans += " " +str(eval_expression(env , t))
+    return ans[1:]
 
 def eval_expression(env , tree):
     node_type = tree[0] 
