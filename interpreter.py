@@ -63,6 +63,30 @@ def Binop(env, tree):
         return LHS / RHS
     if operation == '%':
         return LHS % RHS
+def Compop(env , tree):
+    operation = tree[2]
+    LHS = eval_expression(env , tree[1])
+    RHS = eval_expression(env , tree[3])
+
+    if LHS == "?/?/" or RHS == "?/?/":
+        Error("Undeclared Variables !")
+
+    if type(LHS) != type(RHS):
+        Error("Cannot compare {} with {}".format(type(LHS) , type(RHS)))
+    
+    if operation == "==":
+        return LHS == RHS
+    if operation == ">=":
+        return LHS>=RHS
+    if operation == "<=":
+        return LHS <= RHS
+    if operation == "!=":
+        return LHS != RHS
+    if operation == ">":
+        return LHS > RHS
+    if operation == "<":
+        return LHS < RHS
+
 
 def Vname(env, tree):
     Val = get_variable(env , tree[1][0])
@@ -71,10 +95,11 @@ def Vname(env, tree):
     else:
         return Val[1]
 
-def pprint(env , tree):
+def Pprint(env , tree):
+    # print(tree)
     print(eval_expression(env , tree[1][0])) #recursively evaluate and print the elements
 
-def tprint(env , tree, ans): #incase there are tuples in print
+def Tprint(env , tree, ans): #incase there are tuples in print
     for t in tree[1:]:
         ans += " " +str(eval_expression(env , t))
     return ans[1:]
@@ -96,12 +121,15 @@ def eval_expression(env , tree):
         return Identifier(env , tree)
     if node_type == "binary operation":
         return Binop(env , tree)
+    if node_type == "comparison operation":
+        return Compop(env , tree )
+
     if node_type == "vname":
         return Vname(env , tree)
     if node_type == "print":
-        return pprint(env , tree)
+        return Pprint(env , tree)
     if node_type == "print tuple":
-        return tprint(env , tree , '')
+        return Tprint(env , tree , '') 
 
 
 def main():

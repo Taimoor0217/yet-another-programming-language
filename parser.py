@@ -158,7 +158,7 @@ def p_exp_compareop(p):
 		| exp GREATER exp 
 		| exp LESSER exp
 		| exp NOEQ exp"""
-	p[0] = ("comparision operation", p[1], p[2], p[3])
+	p[0] = ("comparison operation", p[1], p[2], p[3])
 
 
 def p_exp_crement(p):
