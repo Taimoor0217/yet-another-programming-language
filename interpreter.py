@@ -27,13 +27,13 @@ def Error(e):
 
 def Identifier(env , tree):
     #this does not handle updating the value of a variable i-e X = 10
-    print(tree)
+    # print(tree)
     Type = tree[1]
     variable = tree[2][0]
     val = get_variable(env , variable)
     if val == sys.maxsize:
-        if Type == tree[3][0].upper(): # assuming there will only be statements like INT A = 10; and not like INT A = 10 + 10;
-            value = eval_expression(env , tree[3])
+        value = eval_expression(env , tree[3])
+        if Type == tree[3][0].upper() or ( Type == "INT" and type(val) is int ): # assuming there will only be statements like INT A = 10; and not like INT A = 10 + 10;
             set_variable(env , Type, variable , value)
         else:
             Error("Type mismatch for variable {}, cannot assign {} to {}".format(variable , tree[3][0].upper() , Type))
@@ -115,7 +115,7 @@ def Vname(env, tree):
         return Val[1]
 
 def Pprint(env , tree):
-    print(tree)
+    # print(tree)
     print(eval_expression(env , tree[1][0])) #recursively evaluate and print the elements
 
 def Tprint(env , tree, ans): #incase there are tuples in print
@@ -123,6 +123,17 @@ def Tprint(env , tree, ans): #incase there are tuples in print
         ans += " " +str(eval_expression(env , t))
     return ans[1:]
 
+def Declaration(env , tree):
+    Type = tree[1]
+    variable = tree[2][0]
+    val = get_variable(env , variable)
+    if val == sys.maxsize:
+        if Type == "INT":
+            set_variable(env , Type, variable , -sys.maxsize)
+        else:
+            set_variable(env , Type, variable , str(-sys.maxsize) )
+    else:
+        Error("Redeclaration of Variable {} \n Already declared with value: {}".format(variable , val) )
 
 
 def eval_expression(env , tree):
@@ -150,7 +161,8 @@ def eval_expression(env , tree):
         return Compop(env , tree )
     if node_type == "logical operation":
         return Logop(env , tree )
-
+    if node_type == "declaration":
+        return Declaration(env , tree);
     if node_type == "vname":
         return Vname(env , tree)
     if node_type == "print":
@@ -179,7 +191,7 @@ def main():
     else:
         for v in jsast:
             eval_expression(ENV , v)
-            # print(ENV)
+            print(ENV["variables"])
     
 
 if __name__ == "__main__":
