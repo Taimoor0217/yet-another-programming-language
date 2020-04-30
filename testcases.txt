@@ -1,4 +1,9 @@
 INT X = 5;
 INT Y = 100;
-INT Z = 5 * "5";
-PRINT("(", X , "," , Y , "," , X+10 , ")");
+INT Z;
+Z = 100 ;
+Z--;
+Y++;
+STRING N ;
+PRINT( Y , Z);
+PRINT("(", X + Y, ",", X ,",", Z , ")");

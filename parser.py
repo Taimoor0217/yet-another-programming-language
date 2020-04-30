@@ -63,6 +63,10 @@ def p_stmnt_valueless(p): #variable declaration without value
 	'stmnt : TYPE VARNAME vnames SEMICOLON'
 	p[0] = ("declaration", p[1], [p[2]] + p[3])
 
+def p_stmnt_assignment(p): #declaration of a variable with value
+	'stmnt : VARNAME EQUAL exp SEMICOLON'
+	p[0] = ("assignment", p[1], p[3])
+
 
 def p_stmnt_for(p): #for loop with its variables
 	'stmnt : FOR VARNAME INT TO INT choice LCURL stmnts RCURL'

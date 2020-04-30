@@ -18,7 +18,7 @@ def get_variable(env , v):
     return env["variables"].get(v , sys.maxsize)
 
 def set_variable(env , Type , v , value):
-    env["variables"][v] = (Type , value)
+    env["variables"][v] = (type(value) , value)
     return value
 
 def Error(e):
@@ -33,7 +33,7 @@ def Identifier(env , tree):
     val = get_variable(env , variable)
     if val == sys.maxsize:
         value = eval_expression(env , tree[3])
-        if Type == tree[3][0].upper() or ( Type == "INT" and type(val) is int ): # assuming there will only be statements like INT A = 10; and not like INT A = 10 + 10;
+        if Type == tree[3][0].upper() or ( Type == "INT" and tree[3][0] == "binary operation"  ): # assuming there will only be statements like INT A = 10; and not like INT A = 10 + 10;
             set_variable(env , Type, variable , value)
         else:
             Error("Type mismatch for variable {}, cannot assign {} to {}".format(variable , tree[3][0].upper() , Type))
@@ -135,6 +135,26 @@ def Declaration(env , tree):
     else:
         Error("Redeclaration of Variable {} \n Already declared with value: {}".format(variable , val) )
 
+def Assignment(env , tree):
+    # Type =
+    variable = tree[1]
+    val = get_variable(env , variable)
+    if val == sys.maxsize:
+        Error("Undeclared Variables !")
+    RHS = eval_expression(env , tree[2])
+    if type(RHS) == val[0]:
+        set_variable(env , type(RHS) , variable , RHS)
+    else:
+        Error("Type Mismatch")
+def Increment(env , tree , Type):
+    variable = tree[1]
+    val = get_variable(env , variable)
+    if val == sys.maxsize:
+        Error("Undeclared Variable {}!".format(variable))
+    if Type == "pp": 
+        set_variable(env , "" , variable , val[1]+1)
+    else:
+        set_variable(env , "" , variable , val[1]-1)
 
 def eval_expression(env , tree):
     node_type = tree[0] 
@@ -162,20 +182,23 @@ def eval_expression(env , tree):
     if node_type == "logical operation":
         return Logop(env , tree )
     if node_type == "declaration":
-        return Declaration(env , tree);
+        return Declaration(env , tree)
+    if node_type == "assignment":
+        return Assignment(env , tree)
     if node_type == "vname":
         return Vname(env , tree)
     if node_type == "print":
         return Pprint(env , tree)
     if node_type == "print tuple":
-        return Tprint(env , tree , '') 
-    
-
+        return Tprint(env , tree , '')
+    if node_type == "plusplus":
+        return Increment(env , tree , "pp")
+    if node_type == "minusminus":
+        return Increment(env , tree , "mm")
 
 def main():
     with open('testcases.txt', 'r') as f:
         data = f.read()
-
 
     jslexer = lex.lex(module=lexer)
     jsparser = yacc.yacc(module=parser)
@@ -191,7 +214,7 @@ def main():
     else:
         for v in jsast:
             eval_expression(ENV , v)
-            print(ENV["variables"])
+            # print(ENV["variables"])
     
 
 if __name__ == "__main__":
