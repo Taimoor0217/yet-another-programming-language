@@ -45,9 +45,6 @@ def Binop(env, tree):
     LHS = eval_expression(env , tree[1])
     RHS = eval_expression(env , tree[3])
 
-    if LHS == "?/?/" or RHS == "?/?/":
-        Error("Undeclared Variables !")
-
     if type(LHS) != type(RHS):
         Error("Type mismatch for {} {} {}".format(type(LHS) , operation , type(RHS)))
 
@@ -69,9 +66,6 @@ def Compop(env , tree): #comparison operations
     LHS = eval_expression(env , tree[1])
     RHS = eval_expression(env , tree[3])
 
-    if LHS == "?/?/" or RHS == "?/?/":
-        Error("Undeclared Variables !")
-
     if type(LHS) != type(RHS):
         Error("Cannot compare {} with {}".format(type(LHS) , type(RHS)))
     
@@ -91,17 +85,10 @@ def Compop(env , tree): #comparison operations
 def Logop(env , tree): #logical operation
     operation = tree[2]
     RHS = eval_expression(env , tree[3])
-    if RHS == "?/?/":
-        Error("Undeclared Variables !")
-
     if operation == "NOT":
         return not (RHS != False)
 
     LHS = eval_expression(env , tree[1])
-
-    if LHS == "?/?/":
-        Error("Undeclared Variables !")
-
     if operation == "OR":
         return LHS != False or RHS != False
     if operation == "AND":
@@ -146,6 +133,7 @@ def Assignment(env , tree):
         set_variable(env , type(RHS) , variable , RHS)
     else:
         Error("Type Mismatch")
+        
 def Increment(env , tree , Type):
     variable = tree[1]
     val = get_variable(env , variable)
