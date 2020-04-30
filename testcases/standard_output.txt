@@ -1,0 +1,15 @@
+PRINT("------- PROVIDED TEST CASES -------------");
+
+
+PRINT("STANDARD OUTPUT");
+PRINT(5.4, TRUE, 2);
+
+
+PRINT("------- ADDITIONAL TEST CASES -------------");
+
+
+INT X = 10;
+INT Y = 20;
+PRINT(X , Y);
+PRINT("I HAVE MULTIPLE" , "ARGUMENTS");
+PRINT(X + 20 * 11 , "," , "HELLO WORLD");

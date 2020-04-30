@@ -33,13 +33,14 @@ def p_exp_stempty(p): #empty statement
 	'stmnts : '
 	p[0] = []
 
-def p_exp_false(p):
-	'exp : FALSE'
-	p[0] = ('false' , [])
+def p_exp_bool(p):
+	"""exp : FALSE 
+        | TRUE """
+	p[0] = ('bool' , p[1])
 
-def p_exp_true(p):
-	'exp : TRUE'
-	p[0] = ('true' , [])
+# def p_exp_true(p):
+# 	'exp : TRUE'
+# 	p[0] = ('bool' , p[1])
 
 def p_stmnt_start(p):
 	'exp : stmnts'

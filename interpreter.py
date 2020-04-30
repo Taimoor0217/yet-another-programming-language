@@ -15,7 +15,7 @@ class bcolors:
 
 
 def get_variable(env , v):
-    return env["variables"].get(v , sys.maxsize)
+    return env["variables"].get(v , sys.maxsize) # return maxsize if variable not found
 
 def set_variable(env , Type , v , value):
     env["variables"][v] = (type(value) , value)
@@ -64,7 +64,7 @@ def Binop(env, tree):
     if operation == '%':
         return LHS % RHS
 
-def Compop(env , tree):
+def Compop(env , tree): #comparison operations
     operation = tree[2]
     LHS = eval_expression(env , tree[1])
     RHS = eval_expression(env , tree[3])
@@ -88,7 +88,7 @@ def Compop(env , tree):
     if operation == "<":
         return LHS < RHS
 
-def Logop(env , tree):
+def Logop(env , tree): #logical operation
     operation = tree[2]
     RHS = eval_expression(env , tree[3])
     if RHS == "?/?/":
@@ -109,8 +109,8 @@ def Logop(env , tree):
 
 def Vname(env, tree):
     Val = get_variable(env , tree[1][0])
-    if Val == sys.maxsize:
-        return "?/?/"
+    if Val == sys.maxsize or Val == -sys.maxsize:
+        Error("Undeclared Variable {}".format(tree[1][0]))
     else:
         return Val[1]
 
@@ -163,16 +163,12 @@ def eval_expression(env , tree):
         return int(tree[1])
     if node_type == "double":
         return float(tree[1])
-    if node_type == "bool":
-        return tree[1]
     if node_type == "string":
         return tree[1]
     if node_type == "char":
         return tree[1]
-    if node_type == "false":
-        return False
-    if node_type == "true":
-        return True
+    if node_type == "bool":
+        return not tree[1] == "FALSE"
     if node_type == "identifier":
         return Identifier(env , tree)
     if node_type == "binary operation":
@@ -197,7 +193,7 @@ def eval_expression(env , tree):
         return Increment(env , tree , "mm")
 
 def main():
-    with open('testcases.txt', 'r') as f:
+    with open(sys.argv[1], 'r') as f:
         data = f.read()
 
     jslexer = lex.lex(module=lexer)
