@@ -35,7 +35,7 @@ def Identifier(env , tree, dump):
         value = eval_expression(env , tree[3])
         if Type == tree[3][0].upper() or ( Type == "INT" and tree[3][0] == "binary operation"  ): # assuming there will only be statements like INT A = 10; and not like INT A = 10 + 10;
             set_variable(env , Type, variable , value)
-            if dump is not None:
+            if dump is not None: #push the variable to the dump from where it can be removed after its scope
                 dump += [variable]
         else:
             Error("Type mismatch for variable {}, cannot assign {} to {}".format(variable , tree[3][0].upper() , Type))
@@ -147,7 +147,6 @@ def Increment(env , tree , Type):
         set_variable(env , "" , variable , val[1]-1)
 
 def For_Loop(env , tree):
-    #copy dictionary to the new envoirnment
     decl = tree[1]
     dump = []
     condition = tree[2]
@@ -159,7 +158,7 @@ def For_Loop(env , tree):
             eval_expression(env , s , dump=dump)
         eval_expression(env , change)
 
-    for d in dump:
+    for d in dump: #dump the variables in this scope
         del env["variables"][d]
         # set_variable(env ,"" , d , sys.maxsize )
 def eval_expression(env , tree , *args, **kwargs):
