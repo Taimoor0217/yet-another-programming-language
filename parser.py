@@ -74,7 +74,7 @@ def p_stmnt_assignment(p): #declaration of a variable with value
 
 def p_stmnt_for(p): #for loop with its variables
 	"""stmnt : FOR LPAREN exp COLON exp COLON exp RPAREN LCURL stmnts RCURL"""
-	p[0] = ("FOR", p[3] , p[5] , p[7] , [p[10]] )
+	p[0] = ("FOR", p[3][0] , p[5] , p[7][0] , [p[10]] )
 
 
 def p_stmnt_print(p): #print statement
@@ -167,5 +167,6 @@ jslexer = lex.lex(module=lexer)
 jsparser = yacc.yacc()
 jsast = jsparser.parse(""" FOR (INT I = 3 : I < 5 : I++) {
         PRINT("HELLO");
+		PRINT("HELLO");
  }""",lexer=jslexer)
 print (jsast)

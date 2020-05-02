@@ -179,6 +179,8 @@ def eval_expression(env , tree):
         return Increment(env , tree , "pp")
     if node_type == "minusminus":
         return Increment(env , tree , "mm")
+    if node_type == "for":
+        
 
 def main():
     with open(sys.argv[1], 'r') as f:
