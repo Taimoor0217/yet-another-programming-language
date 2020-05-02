@@ -25,7 +25,7 @@ def Error(e):
    print(f"{bcolors.FAIL} {e}")
    raise SystemExit
 
-def Identifier(env , tree):
+def Identifier(env , tree, dump):
     #this does not handle updating the value of a variable i-e X = 10
     # print(tree)
     Type = tree[1]
@@ -35,6 +35,8 @@ def Identifier(env , tree):
         value = eval_expression(env , tree[3])
         if Type == tree[3][0].upper() or ( Type == "INT" and tree[3][0] == "binary operation"  ): # assuming there will only be statements like INT A = 10; and not like INT A = 10 + 10;
             set_variable(env , Type, variable , value)
+            if dump is not None:
+                dump += [variable]
         else:
             Error("Type mismatch for variable {}, cannot assign {} to {}".format(variable , tree[3][0].upper() , Type))
     else:
@@ -151,16 +153,16 @@ def For_Loop(env , tree):
     condition = tree[2]
     change = tree[3]
     statements = tree[4]
-    dump.append(eval_expression(env , decl))
+    eval_expression(env , decl , dump=dump)
     while eval_expression(env , condition):
         for s in statements:
-            eval_expression(env , s)
+            eval_expression(env , s , dump=dump)
         eval_expression(env , change)
 
     for d in dump:
         del env["variables"][d]
         # set_variable(env ,"" , d , sys.maxsize )
-def eval_expression(env , tree):
+def eval_expression(env , tree , *args, **kwargs):
     node_type = tree[0] 
     #base cases
     if node_type == "int":
@@ -174,7 +176,7 @@ def eval_expression(env , tree):
     if node_type == "bool":
         return not tree[1] == "FALSE"
     if node_type == "identifier":
-        return Identifier(env , tree)
+        return Identifier(env , tree , dump=kwargs.get('dump', None))
     if node_type == "binary operation":
         return Binop(env , tree)
     if node_type == "comparison operation":
