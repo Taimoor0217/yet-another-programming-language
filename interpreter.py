@@ -39,7 +39,7 @@ def Identifier(env , tree):
             Error("Type mismatch for variable {}, cannot assign {} to {}".format(variable , tree[3][0].upper() , Type))
     else:
         Error("Redeclaration of Variable {} \n Already declared with value: {}".format(variable , val) )
-
+    return variable
 def Binop(env, tree):
     operation = tree[2]
     LHS = eval_expression(env , tree[1])
@@ -144,6 +144,22 @@ def Increment(env , tree , Type):
     else:
         set_variable(env , "" , variable , val[1]-1)
 
+def For_Loop(env , tree):
+    #copy dictionary to the new envoirnment
+    decl = tree[1]
+    dump = []
+    condition = tree[2]
+    change = tree[3]
+    statements = tree[4]
+    dump.append(eval_expression(env , decl))
+    while eval_expression(env , condition):
+        for s in statements:
+            eval_expression(env , s)
+        eval_expression(env , change)
+
+    for d in dump:
+        del env["variables"][d]
+        # set_variable(env ,"" , d , sys.maxsize )
 def eval_expression(env , tree):
     node_type = tree[0] 
     #base cases
@@ -179,8 +195,9 @@ def eval_expression(env , tree):
         return Increment(env , tree , "pp")
     if node_type == "minusminus":
         return Increment(env , tree , "mm")
-    if node_type == "for":
-        
+    if node_type == "FOR":
+        return For_Loop(env , tree)
+
 
 def main():
     with open(sys.argv[1], 'r') as f:

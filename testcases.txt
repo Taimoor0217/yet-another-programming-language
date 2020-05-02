@@ -1,9 +1,7 @@
-INT X = 5;
-INT Y = 100;
-INT Z;
-Z = 100 ;
-Z--;
-Y++;
-STRING N ;
-PRINT( X < U);
-PRINT("(", X + Y, ",", X ,",", Z , ")");
+FOR(INT I = 0 : I < 3 : I++){
+    FOR(INT J = 0 : J < 3 : J++){
+        FOR(INT K = 0 : K < 3 : K++){
+            PRINT( "(" , I , ",", J , "," , K , ")" );
+        }
+    }
+}
