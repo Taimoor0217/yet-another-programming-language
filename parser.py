@@ -47,17 +47,20 @@ def p_stmnt_start(p):
 	p[0] = p[1]
 
 def p_stmnt_inn(p): #increment by 1
-	'stmnt : VARNAME PLUSPLUS SEMICOLON'
+	"""stmnt : VARNAME PLUSPLUS SEMICOLON
+    | VARNAME PLUSPLUS """
 	p[0] = ("plusplus", p[1])
 
 def p_stmnt_dnn(p): #decrement by 1
-	'stmnt : VARNAME MINUSMINUS SEMICOLON'
+	"""stmnt : VARNAME MINUSMINUS SEMICOLON
+    | VARNAME MINUSMINUS"""
 	p[0] = ("minusminus", p[1])
 
 
 
 def p_stmnt_declaration(p): #declaration of a variable with value
-	'stmnt : TYPE VARNAME vnames EQUAL exp SEMICOLON'
+	"""stmnt : TYPE VARNAME vnames EQUAL exp
+        | TYPE VARNAME vnames EQUAL exp SEMICOLON """
 	p[0] = ("identifier", p[1], [p[2]]+p[3], p[5])
 
 def p_stmnt_valueless(p): #variable declaration without value
@@ -70,21 +73,18 @@ def p_stmnt_assignment(p): #declaration of a variable with value
 
 
 def p_stmnt_for(p): #for loop with its variables
-	'stmnt : FOR VARNAME INT TO INT choice LCURL stmnts RCURL'
-	p[0] = ("FOR", p[2], p[3], p[5], p[6], p[8])
+	"""stmnt : FOR LPAREN exp COLON exp COLON exp RPAREN LCURL stmnts RCURL"""
+	p[0] = ("FOR", p[3] , p[5] , p[7] , [p[10]] )
 
 
 def p_stmnt_print(p): #print statement
 	'stmnt : PRINT LPAREN exp RPAREN SEMICOLON'
 	p[0] = ("print", [p[3]] )
 
-    
-
 def p_ch_ch(p):
 	"""choice : PLUSPLUS
 		| MINUSMINUS"""
 	p[0] = p[1]
-
 
 def p_attr_attr(p):
 	'attrs : TYPE VARNAME attrs2'
@@ -97,31 +97,6 @@ def p_attr_attrs2(p):
 		p[0] = p[2]
 	else:
 		p[0] = []
-
-
-# def p_stmnt_do(p):
-# 	'stmnt : DO LCURL stmnts RCURL UNTIL LPAREN exp RPAREN'
-# 	p[0] = ("dountil", p[3], p[7])
-
-# def p_stmn_objf(p):
-# 	'stmnt : OBJ VARNAME LCURL stmnts RCURL'
-# 	p[0] = ("new obj", p[2], p[4])
-
-# def p_stmnt_objc(p):
-# 	'stmnt : OBJ VARNAME VARNAME SEMICOLON'
-# 	p[0] = ("obj call", p[2], p[3])
-
-# def p_exp_objexp(p):
-# 	'stmnt : VARNAME DOT VARNAME EQUAL exp SEMICOLON'
-# 	p[0] = ("objval",p[1],p[3],p[5])
-
-# def p_exp_objone(p):
-# 	'exp : VARNAME DOT VARNAME'
-# 	p[0] = ("objret", p[1], p[3])
-
-# def p_exp_arr(p):
-# 	'exp : exp COMMA exp'
-# 	p[0] = p[1] + p[3]
 
 def p_exp_emp(p):
 	'exp : '
@@ -188,11 +163,9 @@ def p_exp_crement(p):
 def p_error(p):
 	print ("Check syntax in line: " , p)
 
-# jslexer = lex.lex(module=lexer)
-# jsparser = yacc.yacc()
-# jsast = jsparser.parse("""FOR I 3 to 5 ++ {
-#     FOR J 3 to 10 ++{
-#         PRINT( X+2 , 2+2 , 2+2  );
-#     }
-# }""",lexer=jslexer)
-# print (jsast)
+jslexer = lex.lex(module=lexer)
+jsparser = yacc.yacc()
+jsast = jsparser.parse(""" FOR (INT I = 3 : I < 5 : I++) {
+        PRINT("HELLO");
+ }""",lexer=jslexer)
+print (jsast)

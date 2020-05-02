@@ -15,9 +15,7 @@ INT e = 5;
 
 PRINT("------- ADDITIONAL TEST CASES -------------");
 
-
-INT X = 10;
-INT Y = 20;
-PRINT(X , Y);
-PRINT("I HAVE MULTIPLE" , "ARGUMENTS");
-PRINT(X + 20 * 11 , "," , "HELLO WORLD");
+DOUBLE Y = 20.0;
+PRINT(Y * 100.0);
+BOOL TEMP = "abc";
+PRINT("HEY");
