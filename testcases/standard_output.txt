@@ -10,6 +10,6 @@ PRINT("------- ADDITIONAL TEST CASES -------------");
 
 INT X = 10;
 INT Y = 20;
-PRINT(X , Y);
+PRINT(X , -Y);
 PRINT("I HAVE MULTIPLE" , "ARGUMENTS");
 PRINT(X + 20 * 11 , "," , "HELLO WORLD");

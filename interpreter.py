@@ -33,43 +33,48 @@ def Identifier(env , tree, dump):
     val = get_variable(env , variable)
     if val == sys.maxsize:
         value = eval_expression(env , tree[3])
-        if Type == tree[3][0].upper() or ( Type == "INT" and tree[3][0] == "binary operation"  ): # assuming there will only be statements like INT A = 10; and not like INT A = 10 + 10;
-            set_variable(env , Type, variable , value)
-            if dump is not None: #push the variable to the dump from where it can be removed after its scope
-                dump += [variable]
-        else:
-            Error("Type mismatch for variable {}, cannot assign {} to {}".format(variable , tree[3][0].upper() , Type))
+        # if Type == tree[3][0].upper() or ( Type == "INT" and tree[3][0] == "binary operation"  ): # assuming there will only be statements like INT A = 10; and not like INT A = 10 + 10;
+        set_variable(env , Type, variable , value)
+        if dump is not None: #push the variable to the dump from where it can be removed after its scope
+            dump += [variable]
+        # else:
+        #     Error("Type mismatch for variable {}, cannot assign {} to {}".format(variable , tree[3][0].upper() , Type))
     else:
         Error("Redeclaration of Variable {} \n Already declared with value: {}".format(variable , val) )
     return variable
 def Binop(env, tree):
+    #doesnot support -b or -X
     operation = tree[2]
     LHS = eval_expression(env , tree[1])
     RHS = eval_expression(env , tree[3])
 
-    if type(LHS) != type(RHS):
-        Error("Type mismatch for {} {} {}".format(type(LHS) , operation , type(RHS)))
-
-    if operation == '+':
-        return LHS + RHS
-    if operation == '-':
-        return LHS - RHS
-    if operation == '*':
-        return LHS * RHS
-    if operation == '/':
-        if RHS == 0:
-            Error("Division by Zero")
-        return LHS / RHS
-    if operation == '%':
-        return LHS % RHS
+    # if type(LHS) != type(RHS):
+    #     Error("Type mismatch for {} {} {}".format(type(LHS) , operation , type(RHS)))
+    try:
+        if operation == '+':
+            return LHS + RHS
+        if operation == '^':
+            return LHS**RHS
+        if operation == '-':
+            return LHS - RHS
+        if operation == '*':
+            return LHS * RHS
+        if operation == '/':
+            if RHS == 0:
+                Error("Division by Zero")
+            return LHS / RHS
+        if operation == '%':
+            return LHS % RHS
+    except TypeError:
+        Error("Cannot perform {} on {} and {}".format(operation , type(LHS), type(RHS)))
 
 def Compop(env , tree): #comparison operations
     operation = tree[2]
     LHS = eval_expression(env , tree[1])
     RHS = eval_expression(env , tree[3])
 
-    if type(LHS) != type(RHS):
-        Error("Cannot compare {} with {}".format(type(LHS) , type(RHS)))
+    # if type(LHS) != type(RHS):
+    #     Error("Cannot compare {} with {}".format(type(LHS) , type(RHS)))
     
     if operation == "==":
         return LHS == RHS
@@ -97,7 +102,8 @@ def Logop(env , tree): #logical operation
         return LHS != False and RHS != False
 
 def Vname(env, tree):
-    Val = get_variable(env , tree[1][0])
+    # print(tree)
+    Val = get_variable(env , tree[1])
     if Val == sys.maxsize or Val == -sys.maxsize:
         Error("Undeclared Variable {}".format(tree[1][0]))
     else:
@@ -166,6 +172,9 @@ def closed_exp(env , tree):
     return eval_expression(env , tree[1])
 
 def eval_expression(env , tree , *args, **kwargs):
+    if len(tree) < 1:
+        return 0
+        
     node_type = tree[0] 
     #base cases
     if node_type == "int":

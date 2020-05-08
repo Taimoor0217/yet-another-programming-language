@@ -7,7 +7,7 @@ start = 'exp'
 precedence = (
         ('left', 'EQEQ'),
         ('left', 'LESSER', 'LEEQ', 'GREATER', 'GEEQ'),
-        ('left', 'ADD', 'SUB'),
+        ('left', 'ADD', 'SUB' , 'POWER'),
         ('left', 'MULTIPLY', 'DIVIDE'),
         ('right', 'NOEQ'),
 )
@@ -16,7 +16,7 @@ tokens = (
         'COMMA','EQUAL', 'TYPE','SEMICOLON', 'COLON',
         'STRING','CHAR','INT', 'DOUBLE','BOOL','VARNAME' ,
         'ADD','SUB','DIVIDE','MULTIPLY','MOD','PLUSPLUS','MINUSMINUS',
-        'LPAREN','RPAREN','LCURL','RCURL',
+        'LPAREN','RPAREN','LCURL','RCURL', 'POWER',
         'GREATER','LESSER','LEEQ','GEEQ','NOEQ','EQEQ',
         'FOR','PRINT', 'TO' , 'NOT' , 'AND' , 'OR' , 'FALSE' , 'TRUE'
 )
@@ -139,6 +139,7 @@ def p_exp_binaryop(p):
 	"""exp : exp ADD exp 
 		| exp SUB exp 
 		| exp MULTIPLY exp 
+		| exp POWER exp 
 		| exp DIVIDE exp 
 		| exp MOD exp"""
 	p[0] = ("binary operation", p[1], p[2], p[3])

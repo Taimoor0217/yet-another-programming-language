@@ -11,6 +11,7 @@ t_LPAREN =   r'\('
 t_RPAREN =   r'\)'
 t_SUB = r'-'
 t_MULTIPLY = r'\*'
+t_POWER = r'\^'
 t_ADD = r'\+'
 t_MOD = r'\%'
 t_PLUSPLUS = r'\+\+'
@@ -28,7 +29,7 @@ tokens = (
         'ADD','SUB','DIVIDE','MULTIPLY','MOD','PLUSPLUS','MINUSMINUS',
         'LPAREN','RPAREN','LCURL','RCURL',
         'GREATER','LESSER','LEEQ','GEEQ','NOEQ','EQEQ',
-        'FOR','TO' , 'PRINT', 'NOT' , 'AND', 'OR' , 'FALSE' , 'TRUE'
+        'FOR','TO' , 'PRINT', 'NOT' , 'AND', 'OR' , 'FALSE' , 'TRUE', 'POWER'
 )
 
 def t_newline(t):
