@@ -66,7 +66,7 @@ def Binop(env, tree):
         if operation == '%':
             return LHS % RHS
     except TypeError:
-        Error("Cannot perform {} on {} and {}".format(operation , type(LHS), type(RHS)))
+        Error("TypeError: Cannot perform {} on {} and {}".format(operation , type(LHS), type(RHS)))
 
 def Compop(env , tree): #comparison operations
     operation = tree[2]
