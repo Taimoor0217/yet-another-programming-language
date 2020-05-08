@@ -161,6 +161,10 @@ def For_Loop(env , tree):
     for d in dump: #dump the variables in this scope
         del env["variables"][d]
         # set_variable(env ,"" , d , sys.maxsize )
+def closed_exp(env , tree):
+    # print(tree)
+    return eval_expression(env , tree[1])
+
 def eval_expression(env , tree , *args, **kwargs):
     node_type = tree[0] 
     #base cases
@@ -198,6 +202,8 @@ def eval_expression(env , tree , *args, **kwargs):
         return Increment(env , tree , "mm")
     if node_type == "FOR":
         return For_Loop(env , tree)
+    if node_type == "closed_expression":
+        return closed_exp(env , tree)
 
 
 def main():

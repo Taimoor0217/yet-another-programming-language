@@ -1,7 +1,3 @@
-FOR(INT I = 0 : I < 3 : I++){
-    FOR(INT J = 0 : J < 3 : J++){
-        FOR(INT K = 0 : K < 3 : K++){
-            PRINT( "(" , I , ",", J , "," , K , ")" );
-        }
-    }
-}
+INT x = 1;
+INT y = 2;
+PRINT(( (x + y) + (3 + 4) )*3); 

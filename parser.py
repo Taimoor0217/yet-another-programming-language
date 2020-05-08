@@ -81,6 +81,10 @@ def p_stmnt_print(p): #print statement
 	'stmnt : PRINT LPAREN exp RPAREN SEMICOLON'
 	p[0] = ("print", [p[3]] )
 
+def p_closed_exp(p): #closed expression
+	'exp : LPAREN exp RPAREN'
+	p[0] = ("closed_expression", p[2] )
+
 def p_ch_ch(p):
 	"""choice : PLUSPLUS
 		| MINUSMINUS"""
