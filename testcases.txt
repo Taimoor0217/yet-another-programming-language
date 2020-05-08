@@ -1,7 +1,7 @@
 FOR(INT I = 0 : I < 3 : I++){
     FOR(INT J = 0 : J < 3 : J++){
         FOR(INT K = 0 : K < 3 : K++){
-            PRINT( "(" , I , ",", J , "," , K , N, ")" );
+            PRINT( "(" , I , ",", J , "," , K , ")" );
         }
     }
 }
