@@ -27,7 +27,7 @@ tokens = (
         'COMMA','EQUAL', 'TYPE','SEMICOLON', 'COLON',
         'STRING','CHAR','INT', 'DOUBLE','BOOL','VARNAME' ,
         'ADD','SUB','DIVIDE','MULTIPLY','MOD','PLUSPLUS','MINUSMINUS',
-        'LPAREN','RPAREN','LCURL','RCURL',
+        'LPAREN','RPAREN','LCURL','RCURL', 'STRUCT',
         'GREATER','LESSER','LEEQ','GEEQ','NOEQ','EQEQ',
         'FOR','TO' , 'PRINT', 'NOT' , 'AND', 'OR' , 'FALSE' , 'TRUE', 'POWER'
 )
@@ -83,6 +83,10 @@ def t_DOUBLE(t):
         t.value=float(t.value)
         return t
 
+def t_STRUCT(t):
+        r'STRUCT'
+        return t 
+
 def t_INT(t):
         r'\d+'
         t.value=int(t.value)
@@ -108,7 +112,7 @@ def t_VARNAME(t):
         r'[a-zA-Z_][a-zA-Z0-9_]*'
         return t
 
-# text = """FOR(INT i = 0 ; i  < 10 ; i++){
+# text = """STRUCT N{
 #     PRINT("HELLO WORLD")
 # }"""
 

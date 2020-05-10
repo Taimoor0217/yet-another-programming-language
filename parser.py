@@ -17,7 +17,7 @@ tokens = (
         'STRING','CHAR','INT', 'DOUBLE','BOOL','VARNAME' ,
         'ADD','SUB','DIVIDE','MULTIPLY','MOD','PLUSPLUS','MINUSMINUS',
         'LPAREN','RPAREN','LCURL','RCURL', 'POWER',
-        'GREATER','LESSER','LEEQ','GEEQ','NOEQ','EQEQ',
+        'GREATER','LESSER','LEEQ','GEEQ','NOEQ','EQEQ','STRUCT',
         'FOR','PRINT', 'TO' , 'NOT' , 'AND' , 'OR' , 'FALSE' , 'TRUE'
 )
 
@@ -65,7 +65,7 @@ def p_stmnt_declaration(p): #declaration of a variable with value
 
 def p_stmnt_valueless(p): #variable declaration without value
 	'stmnt : TYPE VARNAME vnames SEMICOLON'
-	p[0] = ("declaration", p[1], [p[2]] + p[3])
+	p[0] = ("declaration", p[1], p[2])
 
 def p_stmnt_assignment(p): #declaration of a variable with value
 	'stmnt : VARNAME EQUAL exp SEMICOLON'
@@ -164,14 +164,18 @@ def p_exp_crement(p):
 		| exp MINUSMINUS"""
 	p[0] = ("crement", p[1], p[2])
 
+def p_stmnt_struct_declaration(p):#declaration of a struct
+	'stmnt : STRUCT VARNAME LCURL stmnts RCURL SEMICOLON'
+	p[0] = ("struct declaration", p[2], p[4] )	
+
 
 def p_error(p):
 	print ("Check syntax in line: " , p)
 
 # jslexer = lex.lex(module=lexer)
 # jsparser = yacc.yacc()
-# jsast = jsparser.parse(""" FOR (INT I = 3 : I < 5 : I++) {
+# jsast = jsparser.parse(""" STRUCT S {
 #         PRINT("HELLO");
 # 		PRINT("HELLO");
-#  }""",lexer=jslexer)
+#  };""",lexer=jslexer)
 # print (jsast)

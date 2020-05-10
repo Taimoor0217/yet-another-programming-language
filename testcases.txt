@@ -1,3 +1,10 @@
-INT x = 1;
-INT y = 2;
-PRINT(( (x + y) + (3 + 4) )*3); 
+STRUCT N {
+    INT N;
+    BOOL U;
+};
+
+
+STRUCT K {
+    INT N;
+    BOOL U;
+};

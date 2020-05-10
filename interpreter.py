@@ -171,6 +171,29 @@ def closed_exp(env , tree):
     # print(tree)
     return eval_expression(env , tree[1])
 
+def struct_declaration(env , tree):
+    def check_red(Vars ,  v):
+        for N in Vars:
+            if N[1] == v:
+                return False
+        return True
+    name = tree[1]
+    variables = tree[2]
+    N_VARS = []
+    if env["structs"].get(name , sys.maxsize) == sys.maxsize:
+        for v in variables:
+            if v[0] == "declaration":
+                if check_red(N_VARS , v[2]):
+                    N_VARS.append(v[1:])
+                else:
+                    Error("Redeclaration of varaiable {} in declaraton of STRUCT {}".format(v[2] , name))
+            else:
+                Error("Syntax error in the declaration of STRUCT {}".format(name))
+        env["structs"][name] = {
+            "Vars": N_VARS
+        }
+    else:
+        Error("Redeclration of already defined struct")
 def eval_expression(env , tree , *args, **kwargs):
     if len(tree) < 1:
         return 0
@@ -213,6 +236,8 @@ def eval_expression(env , tree , *args, **kwargs):
         return For_Loop(env , tree)
     if node_type == "closed_expression":
         return closed_exp(env , tree)
+    if node_type == "struct declaration":
+        return struct_declaration(env , tree)
 
 
 def main():
@@ -225,7 +250,7 @@ def main():
     # print(jsast)
     ENV = {
         "variables": {},
-        "Temps": {}
+        "structs": {}
     }
     # LOOP_ENV = {}
     if len(jsast) == 1:
