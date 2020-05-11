@@ -18,7 +18,7 @@ tokens = (
         'ADD','SUB','DIVIDE','MULTIPLY','MOD','PLUSPLUS','MINUSMINUS',
         'LPAREN','RPAREN','LCURL','RCURL', 'POWER',
         'GREATER','LESSER','LEEQ','GEEQ','NOEQ','EQEQ','STRUCT',
-        'FOR','PRINT', 'TO' , 'NOT' , 'AND' , 'OR' , 'FALSE' , 'TRUE'
+        'FOR','PRINT', 'TO' , 'NOT' , 'AND' , 'OR' , 'FALSE' , 'TRUE' , 'DOT',
 )
 
 def p_exp_stmnts(p): #statment followed by statements
@@ -171,6 +171,10 @@ def p_stmnt_struct_declaration(p):#declaration of a struct
 def p_struct_instance(p):
 	'stmnt : VARNAME VARNAME SEMICOLON'
 	p[0] = ("struct instance" , p[1] , p[2] )
+
+def p_struct_reference(p):
+	'stmnt : VARNAME DOT VARNAME SEMICOLON'
+	p[0] = ("struct reference" , p[1] , p[3])
 
 def p_error(p):
 	print ("Check syntax in line: " , p)

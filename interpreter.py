@@ -211,6 +211,9 @@ def struct_instance(env , tree):
         env["instances"][Name] = instance
     print(env)
     
+def struct_reference(env , tree):
+    print(tree)
+
 def eval_expression(env , tree , *args, **kwargs):
     if len(tree) < 1:
         return 0
@@ -257,7 +260,8 @@ def eval_expression(env , tree , *args, **kwargs):
         return struct_declaration(env , tree)
     if node_type == "struct instance":
         return struct_instance(env , tree)
-
+    if node_type == "struct reference":
+        return struct_reference(env , tree)
 
 def main():
     with open(sys.argv[1], 'r') as f:

@@ -10,3 +10,4 @@ STRUCT K {
 };
 
 MyBook N;
+N.name;

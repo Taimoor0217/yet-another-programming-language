@@ -21,6 +21,7 @@ t_LESSER = r'\<'
 t_LEEQ = r'<='
 t_GEEQ = r'>='
 t_NOEQ = r'!='
+t_DOT = r'.'
 
 
 tokens = (
@@ -28,7 +29,7 @@ tokens = (
         'STRING','CHAR','INT', 'DOUBLE','BOOL','VARNAME' ,
         'ADD','SUB','DIVIDE','MULTIPLY','MOD','PLUSPLUS','MINUSMINUS',
         'LPAREN','RPAREN','LCURL','RCURL', 'STRUCT',
-        'GREATER','LESSER','LEEQ','GEEQ','NOEQ','EQEQ',
+        'GREATER','LESSER','LEEQ','GEEQ','NOEQ','EQEQ', 'DOT',
         'FOR','TO' , 'PRINT', 'NOT' , 'AND', 'OR' , 'FALSE' , 'TRUE', 'POWER'
 )
 
@@ -95,6 +96,7 @@ def t_INT(t):
 def t_COMMA(t):
         r','
         return t 
+
 
 def t_SEMICOLON(t):
         r';'
