@@ -168,6 +168,9 @@ def p_stmnt_struct_declaration(p):#declaration of a struct
 	'stmnt : STRUCT VARNAME LCURL stmnts RCURL SEMICOLON'
 	p[0] = ("struct declaration", p[2], p[4] )	
 
+def p_struct_instance(p):
+	'stmnt : VARNAME VARNAME SEMICOLON'
+	p[0] = ("struct instance" , p[1] , p[2] )
 
 def p_error(p):
 	print ("Check syntax in line: " , p)

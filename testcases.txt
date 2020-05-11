@@ -1,4 +1,4 @@
-STRUCT N {
+STRUCT MyBook {
     INT N;
     BOOL U;
 };
@@ -8,3 +8,5 @@ STRUCT K {
     INT N;
     BOOL U;
 };
+
+MyBook N;

@@ -194,6 +194,23 @@ def struct_declaration(env , tree):
         }
     else:
         Error("Redeclration of already defined struct")
+
+def struct_instance(env , tree):
+    def build_instance(s_type):
+        ins = {}
+        for i in s_type["Vars"]:
+            ins[i] = None #How about sys.max size?
+        return ins
+    _type = tree[1]
+    s_type = env["structs"].get(_type , None)
+    if s_type is None:
+        Error("Undefined Type: {} ".format(_type))
+    else:
+        instance = build_instance(s_type)
+        Name = tree[2]
+        env["instances"][Name] = instance
+    print(env)
+    
 def eval_expression(env , tree , *args, **kwargs):
     if len(tree) < 1:
         return 0
@@ -238,6 +255,8 @@ def eval_expression(env , tree , *args, **kwargs):
         return closed_exp(env , tree)
     if node_type == "struct declaration":
         return struct_declaration(env , tree)
+    if node_type == "struct instance":
+        return struct_instance(env , tree)
 
 
 def main():
@@ -250,7 +269,8 @@ def main():
     # print(jsast)
     ENV = {
         "variables": {},
-        "structs": {}
+        "structs": {},
+        "instances": {}
     }
     # LOOP_ENV = {}
     if len(jsast) == 1:
