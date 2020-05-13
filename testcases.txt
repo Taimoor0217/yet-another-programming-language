@@ -11,3 +11,4 @@ STRUCT K {
 
 MyBook N;
 N.name <- 100*90;
+PRINT(N.name);
