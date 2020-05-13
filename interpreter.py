@@ -219,14 +219,13 @@ def struct_reference(env , tree):
     if env["instances"].get(struct, None): #check if such struc exists
         #type_checking has not been done yet
         #todo: get attr type from original signature and compare
-        if env["instances"][struct].get(attr , None): ##check if strcut has that atrr defined
-            return env["instances"][struct][attr]
+        if env["instances"][struct].get(attr , None) is not None: ##check if strcut has that atrr defined
+            v = env["instances"][struct][attr]
+            return v
         else:
             Error("Undefinded attribute {} of {} ".format( attr , struct))
     else:
         Error("Undefinded struct {} ".format(struct))
-    print(env)
-    # print(tree)
 
 def attr_assignment(env , tree):
     struct = tree[1]
@@ -242,7 +241,7 @@ def attr_assignment(env , tree):
             Error("Undefinded attribute {} of {} ".format( attr , struct))
     else:
         Error("Undefinded struct {} ".format(struct))
-    print(env)
+    # print(env)
 def eval_expression(env , tree , *args, **kwargs):
     if len(tree) < 1:
         return 0

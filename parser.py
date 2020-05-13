@@ -173,7 +173,7 @@ def p_struct_instance(p):
 	p[0] = ("struct instance" , p[1] , p[2] )
 
 def p_struct_reference(p):
-	'stmnt : VARNAME DOT VARNAME'
+	'exp : VARNAME DOT VARNAME'
 	p[0] = ("struct reference" , p[1] , p[3])
 
 def p_struct_attr_assignment(p):

@@ -11,4 +11,6 @@ STRUCT K {
 
 MyBook N;
 N.name <- 100*90;
-PRINT(N.name);
+N.U <- FALSE;
+
+PRINT( NOT NOT (N.U AND N.name) );
