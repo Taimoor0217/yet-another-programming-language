@@ -22,7 +22,6 @@ t_LESSER = r'\<'
 t_LEEQ = r'<='
 t_GEEQ = r'>='
 t_NOEQ = r'!='
-t_INJECT = r'<-'
 
 
 tokens = (
@@ -69,6 +68,10 @@ def t_OR(t):
 
 def t_FOR(t):
         r'FOR'
+        return t
+
+def t_INJECT(t):
+        r'<-'
         return t
 
 def t_PRINT(t):
