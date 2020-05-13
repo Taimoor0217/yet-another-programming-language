@@ -16,7 +16,7 @@ tokens = (
         'COMMA','EQUAL', 'TYPE','SEMICOLON', 'COLON',
         'STRING','CHAR','INT', 'DOUBLE','BOOL','VARNAME' ,
         'ADD','SUB','DIVIDE','MULTIPLY','MOD','PLUSPLUS','MINUSMINUS',
-        'LPAREN','RPAREN','LCURL','RCURL', 'POWER',
+        'LPAREN','RPAREN','LCURL','RCURL', 'POWER', 'INJECT',
         'GREATER','LESSER','LEEQ','GEEQ','NOEQ','EQEQ','STRUCT',
         'FOR','PRINT', 'TO' , 'NOT' , 'AND' , 'OR' , 'FALSE' , 'TRUE' , 'DOT',
 )
@@ -173,8 +173,12 @@ def p_struct_instance(p):
 	p[0] = ("struct instance" , p[1] , p[2] )
 
 def p_struct_reference(p):
-	'stmnt : VARNAME DOT VARNAME SEMICOLON'
+	'stmnt : VARNAME DOT VARNAME'
 	p[0] = ("struct reference" , p[1] , p[3])
+
+def p_struct_attr_assignment(p):
+	'stmnt : VARNAME DOT VARNAME INJECT exp SEMICOLON'
+	p[0] = ("struct attr assignment", p[1] , p[3] , p[5])
 
 def p_error(p):
 	print ("Check syntax in line: " , p)

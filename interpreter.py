@@ -199,7 +199,7 @@ def struct_instance(env , tree):
     def build_instance(s_type):
         ins = {}
         for i in s_type["Vars"]:
-            ins[i] = None #How about sys.max size?
+            ins[i[1]] = sys.maxsize #How about sys.max size?
         return ins
     _type = tree[1]
     s_type = env["structs"].get(_type , None)
@@ -207,13 +207,29 @@ def struct_instance(env , tree):
         Error("Undefined Type: {} ".format(_type))
     else:
         instance = build_instance(s_type)
+        instance["type"] = _type
         Name = tree[2]
         env["instances"][Name] = instance
-    print(env)
+    # print(env)
     
 def struct_reference(env , tree):
     print(tree)
 
+def attr_assignment(env , tree):
+    struct = tree[1]
+    attr = tree[2]
+    value = eval_expression(env , tree[3])
+
+    if env["instances"].get(struct, None): #check if such struc exists
+        #type_checking has not been done yet
+        #todo: get attr type from original signature and compare
+        if env["instances"][struct].get(attr , None): ##check if strcut has that atrr defined
+            env["instances"][struct][attr] = value
+        else:
+            Error("Undefinded attribute {} of {} ".format( attr , struct))
+    else:
+        Error("Undefinded struct {} ".format(struct))
+    print(env)
 def eval_expression(env , tree , *args, **kwargs):
     if len(tree) < 1:
         return 0
@@ -262,7 +278,8 @@ def eval_expression(env , tree , *args, **kwargs):
         return struct_instance(env , tree)
     if node_type == "struct reference":
         return struct_reference(env , tree)
-
+    if node_type == "struct attr assignment":
+        return attr_assignment(env , tree)
 def main():
     with open(sys.argv[1], 'r') as f:
         data = f.read()

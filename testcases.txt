@@ -1,5 +1,5 @@
 STRUCT MyBook {
-    INT N;
+    INT name;
     BOOL U;
 };
 
@@ -10,4 +10,4 @@ STRUCT K {
 };
 
 MyBook N;
-N.name;
+N.name <- 100*90;

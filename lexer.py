@@ -3,6 +3,7 @@ import ply.lex as lex
 t_ignore                = ' \t\v\r' # whitespace
 
 t_EQEQ = r'=='
+t_DOT = r'.'
 t_EQUAL = r'='
 t_LCURL = r'\{'
 t_RCURL = r'\}'
@@ -21,14 +22,14 @@ t_LESSER = r'\<'
 t_LEEQ = r'<='
 t_GEEQ = r'>='
 t_NOEQ = r'!='
-t_DOT = r'.'
+t_INJECT = r'<-'
 
 
 tokens = (
         'COMMA','EQUAL', 'TYPE','SEMICOLON', 'COLON',
         'STRING','CHAR','INT', 'DOUBLE','BOOL','VARNAME' ,
         'ADD','SUB','DIVIDE','MULTIPLY','MOD','PLUSPLUS','MINUSMINUS',
-        'LPAREN','RPAREN','LCURL','RCURL', 'STRUCT',
+        'LPAREN','RPAREN','LCURL','RCURL', 'STRUCT', 'INJECT',
         'GREATER','LESSER','LEEQ','GEEQ','NOEQ','EQEQ', 'DOT',
         'FOR','TO' , 'PRINT', 'NOT' , 'AND', 'OR' , 'FALSE' , 'TRUE', 'POWER'
 )
