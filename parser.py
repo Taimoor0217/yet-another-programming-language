@@ -18,7 +18,7 @@ tokens = (
         'ADD','SUB','DIVIDE','MULTIPLY','MOD','PLUSPLUS','MINUSMINUS',
         'LPAREN','RPAREN','LCURL','RCURL', 'POWER', 'INJECT',
         'GREATER','LESSER','LEEQ','GEEQ','NOEQ','EQEQ','STRUCT',
-        'FOR','PRINT', 'TO' , 'NOT' , 'AND' , 'OR' , 'FALSE' , 'TRUE' , 'DOT',
+        'FOR','PRINT', 'TO' , 'NOT' , 'AND' , 'OR' , 'FALSE' , 'TRUE' , 'DOT'
 )
 
 def p_exp_stmnts(p): #statment followed by statements
@@ -185,8 +185,5 @@ def p_error(p):
 
 # jslexer = lex.lex(module=lexer)
 # jsparser = yacc.yacc()
-# jsast = jsparser.parse(""" STRUCT S {
-#         PRINT("HELLO");
-# 		PRINT("HELLO");
-#  };""",lexer=jslexer)
+# jsast = jsparser.parse(""" INT X = 1;""",lexer=jslexer)
 # print (jsast)
