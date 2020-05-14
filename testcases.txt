@@ -1,16 +1,2 @@
-STRUCT MyBook {
-    INT name;
-    BOOL U;
-};
-
-
-STRUCT K {
-    INT N;
-    BOOL U;
-};
-
-MyBook N;
-N.name <- 100*90;
-N.U <- FALSE;
-
-PRINT( NOT NOT (N.U AND N.name) );
+INT X = 2.0 + 2;
+PRINT(X > 1.0);

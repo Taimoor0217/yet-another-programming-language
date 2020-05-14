@@ -13,6 +13,21 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+BINS = {
+    ( 'INT' , 'DOUBLE' , type(1) , type(1.0) , 'FLOAT' ) : 1,
+    ( 'STRING' , 'CHAR' , type("hello") , type('H') ): 2,
+    ( 'BOOL' , type(True) ): 3
+}
+
+
+def get_bin(_type): #returns the BIN number for a specific type
+    global BINS
+    for b in BINS.items():
+        if _type in b[0]:
+            return b[1]
+    return -1
+def typeCheck(LHS , RHS):
+    return get_bin(LHS) == get_bin(RHS)
 
 def get_variable(env , v):
     return env["variables"].get(v , sys.maxsize) # return maxsize if variable not found
@@ -33,12 +48,12 @@ def Identifier(env , tree, dump):
     val = get_variable(env , variable)
     if val == sys.maxsize:
         value = eval_expression(env , tree[3])
-        # if Type == tree[3][0].upper() or ( Type == "INT" and tree[3][0] == "binary operation"  ): # assuming there will only be statements like INT A = 10; and not like INT A = 10 + 10;
-        set_variable(env , Type, variable , value)
-        if dump is not None: #push the variable to the dump from where it can be removed after its scope
-            dump += [variable]
-        # else:
-        #     Error("Type mismatch for variable {}, cannot assign {} to {}".format(variable , tree[3][0].upper() , Type))
+        if typeCheck( Type, type(value)) == False:
+            Error("Type mismatch for variable {}, cannot assign {} to {}".format(variable , tree[3][0].upper() , Type))
+        else:
+            set_variable(env , Type, variable , value)
+            if dump is not None: #push the variable to the dump from where it can be removed after its scope
+                dump += [variable]
     else:
         Error("Redeclaration of Variable {} \n Already declared with value: {}".format(variable , val) )
     return variable
@@ -48,8 +63,8 @@ def Binop(env, tree):
     LHS = eval_expression(env , tree[1])
     RHS = eval_expression(env , tree[3])
 
-    # if type(LHS) != type(RHS):
-    #     Error("Type mismatch for {} {} {}".format(type(LHS) , operation , type(RHS)))
+    if typeCheck(type(LHS) , type(RHS)) == False:
+        Error("Type mismatch for {} {} {}".format(type(LHS) , operation , type(RHS)))
     try:
         if operation == '+':
             return LHS + RHS
@@ -72,9 +87,9 @@ def Compop(env , tree): #comparison operations
     operation = tree[2]
     LHS = eval_expression(env , tree[1])
     RHS = eval_expression(env , tree[3])
-
-    # if type(LHS) != type(RHS):
-    #     Error("Cannot compare {} with {}".format(type(LHS) , type(RHS)))
+    
+    if typeCheck(type(LHS) , type(RHS)) == False:
+        Error("Type mismatch for {} {} {}".format(type(LHS) , operation , type(RHS)))
     
     if operation == "==":
         return LHS == RHS
