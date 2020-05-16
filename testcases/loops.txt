@@ -1,0 +1,21 @@
+PRINT("************** If you are getting any syntax error, please read the syntax section in readme.md *******************");
+
+PRINT("--------------------GIVEN TEST CASES_------------------");
+PRINT("PLEASE NOTICE THE USE OF COLONS (:) instead of SEMICOLON(;) as seperators" );
+
+FOR (INT i = 0  : i < 2 : i++){
+    FOR (INT j = 0 : j <= 1 : j++){
+        FOR (INT k = 0 : k <= 1 : k++){
+            PRINT( "(" , i , "," , j , "," , k ,")" );
+        }
+    }     
+}
+
+PRINT("--------------------ADDITIONAL TEST CASES_------------------");
+FOR(INT I = 0 : I < 3 : I++){
+    FOR(INT J = 0 : J < 6 : J++){
+        FOR (INT K = 10 : K > 6 : K--){
+            PRINT( I , " " , J , " ", K);
+        }
+    }
+}

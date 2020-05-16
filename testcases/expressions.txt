@@ -1,3 +1,6 @@
+PRINT("************** If you are getting any syntax error, please read the syntax section in readme.md *******************");
+
+
 PRINT("------------------PROVIDED TEST CASES--------------------");
 STRING mystring = "theory" + "of" + "automata";
 INT a = 1;

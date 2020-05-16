@@ -1,5 +1,7 @@
-PRINT("------- PROVIDED TEST CASES -------------")
+PRINT("************** If you are getting any syntax error, please read the syntax section in readme.md *******************");
 
+
+PRINT("------- PROVIDED TEST CASES -------------");
 STRING a = "start";
 INT b = 1;
 DOUBLE c = 2.5;

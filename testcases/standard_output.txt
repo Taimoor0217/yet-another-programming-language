@@ -1,13 +1,11 @@
-PRINT("------- PROVIDED TEST CASES -------------");
+PRINT("************** If you are getting any syntax error, please read the syntax section in readme.md *******************");
 
+PRINT("------- PROVIDED TEST CASES -------------");
 
 PRINT("STANDARD OUTPUT");
 PRINT(5.4, TRUE, 2);
 
-
 PRINT("------- ADDITIONAL TEST CASES -------------");
-
-
 INT X = 10;
 INT Y = 20;
 PRINT(X , -Y);
