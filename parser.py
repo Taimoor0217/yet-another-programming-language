@@ -27,7 +27,7 @@ tokens = (
         'ADD','SUB','DIVIDE','MULTIPLY','MOD','PLUSPLUS','MINUSMINUS',
         'LPAREN','RPAREN','LCURL','RCURL', 'POWER', 'INJECT',
         'GREATER','LESSER','LEEQ','GEEQ','NOEQ','EQEQ','STRUCT',
-        'FOR','PRINT', 'TO' , 'NOT' , 'AND' , 'OR' , 'FALSE' , 'TRUE' , 'DOT'
+        'FOR','PRINT' , 'NOT' , 'AND' , 'OR' , 'FALSE' , 'TRUE' , 'DOT'
 )
 def Error(e):
    print(f"{bcolors.FAIL} {e}")
@@ -102,21 +102,21 @@ def p_ch_ch(p):
 		| MINUSMINUS"""
 	p[0] = p[1]
 
-def p_attr_attr(p):
-	'attrs : TYPE VARNAME attrs2'
-	p[0] = [("attr",p[1],  p[2])] +p[3]
+# def p_attr_attr(p):
+# 	'attrs : TYPE VARNAME attrs2'
+# 	p[0] = [("attr",p[1],  p[2])] +p[3]
 
-def p_attr_attrs2(p):
-	"""attrs2 : COMMA attrs
-		| """
-	if len(p)>1:
-		p[0] = p[2]
-	else:
-		p[0] = []
+# def p_attr_attrs2(p):
+# 	"""attrs2 : COMMA attrs
+# 		| """
+# 	if len(p)>1:
+# 		p[0] = p[2]
+# 	else:
+# 		p[0] = []
 
-def p_exp_emp(p):
-	'exp : '
-	p[0] = []
+# # def p_exp_emp(p):
+# # 	'exp : '
+# # 	p[0] = []
 
 def p_vnames_emo(p):
 	'vnames : COMMA VARNAME vnames'
