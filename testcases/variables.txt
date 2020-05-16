@@ -1,4 +1,4 @@
-PRINT("------- PROVIDED TEST CASES -------------");
+PRINT("------- PROVIDED TEST CASES -------------")
 
 STRING a = "start";
 INT b = 1;
@@ -10,7 +10,6 @@ PRINT(a);
 PRINT(b,c);
 PRINT(d,e);
 PRINT(f);
-INT e = 5;
 
 
 PRINT("------- ADDITIONAL TEST CASES -------------");

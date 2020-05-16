@@ -3,6 +3,7 @@ import parser
 import ply.lex as lex
 import ply.yacc as yacc
 import sys
+
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -88,8 +89,8 @@ def Compop(env , tree): #comparison operations
     LHS = eval_expression(env , tree[1])
     RHS = eval_expression(env , tree[3])
     
-    if typeCheck(type(LHS) , type(RHS)) == False:
-        Error("Type mismatch for {} {} {}".format(type(LHS) , operation , type(RHS)))
+    # if typeCheck(type(LHS) , type(RHS)) == False:
+    #     Error("Type mismatch for {} {} {}".format(type(LHS) , operation , type(RHS)))
     
     if operation == "==":
         return LHS == RHS
@@ -243,6 +244,10 @@ def struct_reference(env , tree):
         Error("Undefinded struct {} ".format(struct))
 
 def attr_assignment(env , tree):
+    def get_attr_type(N_VARS , attr):
+        for v in N_VARS:
+            if v[1] == attr:
+                return v[0]
     struct = tree[1]
     attr = tree[2]
     value = eval_expression(env , tree[3])
@@ -251,7 +256,14 @@ def attr_assignment(env , tree):
         #type_checking has not been done yet
         #todo: get attr type from original signature and compare
         if env["instances"][struct].get(attr , None): ##check if strcut has that atrr defined
-            env["instances"][struct][attr] = value
+            #get the type of the attribute.
+            mytype = env["instances"][struct]["type"]
+            N_VARS = env["structs"][mytype]["Vars"]
+            attr_type = get_attr_type(N_VARS , attr)
+            if typeCheck(attr_type , type(value)):
+                env["instances"][struct][attr] = value
+            else:
+                Error("Assignment Error, in attribute {} of {} cannot assign {} to {} ".format(attr , struct , type(value) , attr_type))
         else:
             Error("Undefinded attribute {} of {} ".format( attr , struct))
     else:

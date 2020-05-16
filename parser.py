@@ -2,6 +2,15 @@ import lexer
 import ply.lex as lex
 import ply.yacc as yacc
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 start = 'exp'
 
 precedence = (
@@ -20,6 +29,9 @@ tokens = (
         'GREATER','LESSER','LEEQ','GEEQ','NOEQ','EQEQ','STRUCT',
         'FOR','PRINT', 'TO' , 'NOT' , 'AND' , 'OR' , 'FALSE' , 'TRUE' , 'DOT'
 )
+def Error(e):
+   print(f"{bcolors.FAIL} {e}")
+   raise SystemExit
 
 def p_exp_stmnts(p): #statment followed by statements
 	'stmnts : stmnt stmnts'
@@ -181,7 +193,7 @@ def p_struct_attr_assignment(p):
 	p[0] = ("struct attr assignment", p[1] , p[3] , p[5])
 
 def p_error(p):
-	print ("Check syntax in line: " , p)
+	Error("Syntax Error in line: {}".format( str(p.lexer.lineno) ))
 
 # jslexer = lex.lex(module=lexer)
 # jsparser = yacc.yacc()

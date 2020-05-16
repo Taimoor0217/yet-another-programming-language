@@ -2,7 +2,7 @@ STRUCT BookStruct {
     CHAR title;
     CHAR author;
     CHAR subject;
-    CHAR book_id;
+    INT book_id;
 };
 
 BookStruct Book1;
