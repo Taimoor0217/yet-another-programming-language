@@ -2,15 +2,15 @@
 Taimoor Ali
 20100217
 
-#### Functioality
-
-This pogramming languages provide implementation of the following functionalities.
-
 #### How to run
 
 Go to the main directory and run 
 
 `python3 interpreter.py <path of the file you want to run>`
+
+#### Functioality
+
+This pogramming languages provide implementation of the following functionalities.
 
 #### Variables ####
 
