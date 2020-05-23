@@ -80,7 +80,8 @@ def p_stmnt_valueless(p): #variable declaration without value
 	p[0] = ("declaration", p[1], p[2])
 
 def p_stmnt_assignment(p): #declaration of a variable with value
-	'stmnt : VARNAME EQUAL exp SEMICOLON'
+	""" stmnt : VARNAME EQUAL exp SEMICOLON 
+		| VARNAME EQUAL exp"""
 	p[0] = ("assignment", p[1], p[3])
 
 
